@@ -6,6 +6,7 @@ import (
 
 	// Import postgres package here ...
 	"gorm.io/driver/postgres"
+	// "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -22,8 +23,8 @@ func DatabaseInit() {
 	var DB_PORT = os.Getenv("DB_PORT")
 
 	// ===== If using MySql =====
-	// dsn := fmt.Sprintf("%s:@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
-	// 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// dsn := fmt.Sprintf("%s:@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT)
+	// DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	// ===== If using Postgres =====
 	// Setup database connection here ...
