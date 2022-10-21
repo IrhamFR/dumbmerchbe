@@ -70,6 +70,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		const MAX_UPLOAD_SIZE = 1024 * 1024 / 10 // 100 kb
 
 		r.Body = http.MaxBytesReader(w, r.Body, MAX_UPLOAD_SIZE)
+		println(r.Body)
 		if err := r.ParseMultipartForm(MAX_UPLOAD_SIZE); err != nil {
 			http.Error(w, "Max size in 100 kb", http.StatusBadRequest)
 			return
