@@ -59,7 +59,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		// setup max-upload
-		const MAX_UPLOAD_SIZE = 1024 * 1024 / 10 // 1MB
+		const MAX_UPLOAD_SIZE = 10 << 20
 		r.ParseMultipartForm(MAX_UPLOAD_SIZE)
 		if r.ContentLength > MAX_UPLOAD_SIZE {
 			w.WriteHeader(http.StatusBadRequest)
