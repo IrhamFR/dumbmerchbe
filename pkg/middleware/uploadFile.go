@@ -49,7 +49,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		filetype := http.DetectContentType(buff)
-		if filetype != "image/jpg" {
+		if filetype != "image/jpg" && filetype != "image/png" {
 			w.WriteHeader(http.StatusBadRequest)
 			response := dto.ErrorResult{Code: http.StatusBadRequest, Message: "The provided file format is not allowed. Please upload a JPG or PNG image"}
 			json.NewEncoder(w).Encode(response)
@@ -88,7 +88,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 
 		// Create a temporary file within our temp-images directory that follows
 		// a particular naming pattern
-		tempFile, err := ioutil.TempFile("uploads", "image-*.jpg")
+		tempFile, err := ioutil.TempFile("uploads", "image-*.png")
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println("path upload error")
