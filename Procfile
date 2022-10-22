@@ -1,1 +1,1 @@
-web: bin/nutechin
+web: bin/dumbmerch
