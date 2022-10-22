@@ -22,6 +22,9 @@ func DatabaseInit() {
 	var DB_NAME = os.Getenv("DB_NAME")
 	var DB_PORT = os.Getenv("DB_PORT")
 
+	// dsn := "root:@tcp(127.0.0.1:3306)/dumbmerch?charset=utf8mb4&parseTime=True&loc=Local"
+	// DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	// ===== If using MySql =====
 	// dsn := fmt.Sprintf("%s:@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT)
 	// DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})

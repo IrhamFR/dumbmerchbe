@@ -14,11 +14,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
-
-	"context"
-
-	"github.com/cloudinary/cloudinary-go/v2"
-	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 )
 
 type handlerProduct struct {
@@ -79,10 +74,10 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	userId := int(userInfo["id"].(float64))
 
 	// get image filename
-	// dataContex := r.Context().Value("dataFile")
-	// filename := dataContex.(string)
 	dataContex := r.Context().Value("dataFile")
-	filepath := dataContex.(string)
+	filename := dataContex.(string)
+	// dataContex := r.Context().Value("dataFile")
+	// filepath := dataContex.(string)
 
 	var categoriesId []int
 	for _, r := range r.FormValue("categoryId") {
@@ -91,13 +86,15 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	price, _ := strconv.Atoi(r.FormValue("price"))
+	buy, _ := strconv.Atoi(r.FormValue("buy"))
+	sell, _ := strconv.Atoi(r.FormValue("sell"))
 	qty, _ := strconv.Atoi(r.FormValue("qty"))
 
 	request := productdto.ProductRequest{
-		Name:       r.FormValue("name"),
-		Desc:       r.FormValue("desc"),
-		Price:      price,
+		Name: r.FormValue("name"),
+		// Desc:       r.FormValue("desc"),
+		Buy:        buy,
+		Sell:       sell,
 		Qty:        qty,
 		UserID:     userId,
 		CategoryID: categoriesId,
@@ -112,16 +109,16 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var ctx = context.Background()
-	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
-	var API_KEY = os.Getenv("API_KEY")
-	var API_SECRET = os.Getenv("API_SECRET")
+	// var ctx = context.Background()
+	// var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	// var API_KEY = os.Getenv("API_KEY")
+	// var API_SECRET = os.Getenv("API_SECRET")
 
 	// Add your Cloudinary credentials ...
-	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+	// cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
 
 	// Upload file to Cloudinary ...
-	resp, err := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "dumbmerch"})
+	// resp, err := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "dumbmerch"})
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -131,10 +128,11 @@ func (h *handlerProduct) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	category, _ := h.ProductRepository.FindCategoriesById(categoriesId)
 
 	product := models.Product{
-		Name:     request.Name,
-		Desc:     request.Desc,
-		Price:    request.Price,
-		Image:    resp.SecureURL,
+		Name: request.Name,
+		// Desc:     request.Desc,
+		Buy:      request.Buy,
+		Sell:     request.Sell,
+		Image:    filename,
 		Qty:      request.Qty,
 		UserID:   userId,
 		Category: category,
@@ -167,7 +165,7 @@ func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 	// get image filename
 	dataContex := r.Context().Value("dataFile")
-	filepath := dataContex.(string)
+	filename := dataContex.(string)
 
 	var categoriesId []int
 	for _, r := range r.FormValue("categoryId") {
@@ -176,13 +174,15 @@ func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	price, _ := strconv.Atoi(r.FormValue("price"))
+	buy, _ := strconv.Atoi(r.FormValue("buy"))
+	sell, _ := strconv.Atoi(r.FormValue("sell"))
 	qty, _ := strconv.Atoi(r.FormValue("qty"))
 
 	request := productdto.ProductRequest{
-		Name:       r.FormValue("name"),
-		Desc:       r.FormValue("desc"),
-		Price:      price,
+		Name: r.FormValue("name"),
+		// Desc:       r.FormValue("desc"),
+		Buy:        buy,
+		Sell:       sell,
 		Qty:        qty,
 		UserID:     userId,
 		CategoryID: categoriesId,
@@ -206,13 +206,14 @@ func (h *handlerProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	product, _ := h.ProductRepository.GetProduct(id)
 
 	product.Name = request.Name
-	product.Desc = request.Desc
-	product.Price = request.Price
+	// product.Desc = request.Desc
+	product.Buy = request.Buy
+	product.Sell = request.Sell
 	product.Qty = request.Qty
 	product.Category = category
 
-	if filepath != "false" {
-		product.Image = filepath
+	if filename != "false" {
+		product.Image = filename
 	}
 
 	product, err = h.ProductRepository.UpdateProduct(product)
@@ -260,10 +261,11 @@ func (h *handlerProduct) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 
 func convertResponseProduct(p models.Product) models.ProductResponse {
 	return models.ProductResponse{
-		ID:       p.ID,
-		Name:     p.Name,
-		Desc:     p.Desc,
-		Price:    p.Price,
+		ID:   p.ID,
+		Name: p.Name,
+		// Desc:     p.Desc,
+		Buy:      p.Buy,
+		Sell:     p.Sell,
 		Image:    p.Image,
 		Qty:      p.Qty,
 		User:     p.User,

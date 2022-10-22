@@ -10,9 +10,8 @@ type Transaction struct {
 	Buyer     UsersProfileResponse `json:"buyer"`
 	SellerID  int                  `json:"seller_id"`
 	Seller    UsersProfileResponse `json:"seller"`
-	Price     int                  `json:"price"`
+	Buy       int                  `json:"buy"`
 	Status    string               `json:"status"  gorm:"type:varchar(25)"`
 	CreatedAt time.Time            `json:"-"`
 	UpdatedAt time.Time            `json:"-"`
 }
-

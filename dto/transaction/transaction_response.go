@@ -6,16 +6,16 @@ import (
 )
 
 type TransactionResponse struct {
-	ID        int                  			`json:"id" gorm:"primary_key:auto_increment"`
-	Product   models.ProductResponse      	`json:"product" gorm:"foreignKey:ProductID"`
+	ID      int                    `json:"id" gorm:"primary_key:auto_increment"`
+	Product models.ProductResponse `json:"product" gorm:"foreignKey:ProductID"`
 	// BuyerID   int                  			`json:"buyer_id"`
-	Buyer     models.UsersProfileResponse 	`json:"buyer"`
+	Buyer models.UsersProfileResponse `json:"buyer"`
 	// SellerID  int                  			`json:"seller_id"`
-	Seller    models.UsersProfileResponse 	`json:"seller"`
-	Price     int                  			`json:"price"`
-	Status    string               			`json:"status"  gorm:"type:varchar(25)"`
-	CreatedAt time.Time            			`json:"-"`
-	UpdatedAt time.Time            			`json:"-"`
+	Seller    models.UsersProfileResponse `json:"seller"`
+	Buy       int                         `json:"buy"`
+	Status    string                      `json:"status"  gorm:"type:varchar(25)"`
+	CreatedAt time.Time                   `json:"-"`
+	UpdatedAt time.Time                   `json:"-"`
 }
 
 // type TransactionResponse struct {
