@@ -2,7 +2,7 @@ package productdto
 
 type ProductRequest struct {
 	Name  string `json:"name" form:"name" gorm:"type: varchar(255)" validate:"required"`
-	Image string `json:"image" form:"image" gorm:"type: varchar(255)" validate:"required"`
+	Image string `json:"image" form:"image" gorm:"type: varchar(255)"`
 	// Desc       string `json:"desc" gorm:"type:text" form:"desc" validate:"required"`
 	Buy        int   `json:"buy" form:"buy" gorm:"type: int"`
 	Sell       int   `json:"sell" form:"sell" gorm:"type: int"`
