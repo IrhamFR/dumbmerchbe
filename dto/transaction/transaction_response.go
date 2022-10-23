@@ -12,7 +12,7 @@ type TransactionResponse struct {
 	Buyer models.UsersProfileResponse `json:"buyer"`
 	// SellerID  int                  			`json:"seller_id"`
 	Seller    models.UsersProfileResponse `json:"seller"`
-	Buy       int                         `json:"sell"`
+	Sell      int                         `json:"sell"`
 	Status    string                      `json:"status"  gorm:"type:varchar(25)"`
 	CreatedAt time.Time                   `json:"-"`
 	UpdatedAt time.Time                   `json:"-"`
