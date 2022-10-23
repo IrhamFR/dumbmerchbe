@@ -92,7 +92,7 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 		ProductID: request.ProductId,
 		BuyerID:   userId,
 		SellerID:  request.SellerId,
-		Sell:      request.Sell,
+		Buy:       request.Buy,
 		Status:    "pending",
 	}
 
@@ -120,7 +120,7 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	req := &snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
 			OrderID:  strconv.Itoa(dataTransactions.ID),
-			GrossAmt: int64(dataTransactions.Sell),
+			GrossAmt: int64(dataTransactions.Buy),
 		},
 		CreditCard: &snap.CreditCardDetails{
 			Secure: true,
@@ -194,7 +194,7 @@ func convertResponseTransaction(t models.Transaction) transactiondto.Transaction
 		Product: t.Product,
 		Buyer:   t.Buyer,
 		Seller:  t.Seller,
-		Sell:    t.Sell,
+		Buy:     t.Buy,
 		Status:  t.Status,
 	}
 }
@@ -210,7 +210,7 @@ func SendMail(status string, transaction models.Transaction) {
 		var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
 
 		var productName = transaction.Product.Name
-		var sell = strconv.Itoa(transaction.Product.Sell)
+		var buy = strconv.Itoa(transaction.Product.Buy)
 		// var price2 = strconv.Itoa(transaction.Product.Price2)
 
 		mailer := gomail.NewMessage()
@@ -238,7 +238,7 @@ func SendMail(status string, transaction models.Transaction) {
 			  <li>Status : <b>%s</b></li>
 			</ul>  
 		  </body>
-		</html>`, productName, sell, status))
+		</html>`, productName, buy, status))
 
 		dialer := gomail.NewDialer(
 			CONFIG_SMTP_HOST,
